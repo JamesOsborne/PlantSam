@@ -18,6 +18,10 @@ function on_message(self, message_id, message, sender)
 		-- Switch to plant viewer and delete main menu gui
 		msg.post(PLANT_VIEWER_PROXY, 'load')
 		go.delete(go.get_id(MAIN_MENU.GAME_OBJECT))
+		
+		-- Move input focus
+		msg.post(MAIN_MENU.GUI, 'release_input_focus')
+		msg.post(PLANT_VIEWER_PROXY, 'acquire_input_focus')
 	elseif message_id == hash('proxy_loaded') then
 		-- Init and enable loaded proxy.
 		msg.post(sender, 'init')
@@ -35,7 +39,9 @@ function on_reload(self)
 	-- Add reload-handling code here
 end
 
-local function unload_collection_proxy(proxy_url)
+-- Helper functions
+
+function unload_collection_proxy(proxy_url)
 	msg.post(proxy_url, 'disable')
 	msg.post(proxy_url, 'final')
 	msg.post(proxy_url, 'unload')

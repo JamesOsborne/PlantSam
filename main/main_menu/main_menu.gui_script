@@ -7,6 +7,7 @@ end
 
 function final(self)
 	-- Add finalization code here
+	print('release menu')
 	msg.post('.', 'release_input_focus')
 end
 

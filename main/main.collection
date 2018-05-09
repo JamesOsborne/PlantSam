@@ -3,7 +3,7 @@ scale_along_z: 0
 embedded_instances {
   id: "main_menu"
   data: "components {\n"
-  "  id: \"main_menu\"\n"
+  "  id: \"gui\"\n"
   "  component: \"/main/main_menu/main_menu.gui\"\n"
   "  position {\n"
   "    x: 0.0\n"

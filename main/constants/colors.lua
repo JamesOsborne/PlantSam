@@ -1,0 +1,1 @@
+PLANT_GREEN = vmath.vector3(0, 100 / 255, 0)

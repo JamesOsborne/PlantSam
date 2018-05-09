@@ -1,0 +1,77 @@
+require('main.constants.colors')
+
+function init(self)
+	-- Add initialization code here
+	self.curr_node = nil
+	self.prev_node = nil
+
+	msg.post('.', 'acquire_input_focus')
+end
+
+function final(self)
+	-- Add finalization code here
+	msg.post('.', 'release_input_focus')
+end
+
+function update(self, dt)
+	-- Add update code here
+end
+
+function on_message(self, message_id, message, sender)
+	-- Add message-handling code here
+end
+
+function on_input(self, action_id, action)
+	-- Add input-handling code here
+	if self.action_time then
+		if os.difftime(os.time(), self.action_time) < 1 then
+			return
+		end
+	end
+	self.action_time = os.time()
+	if action_id == hash('click') or action_id == hash('touch') then
+		create_new_pie_node(self, vmath.vector3(action.x, action.y, 1), vmath.vector3(20, 20, 1))
+		if self.prev_node ~= nil then
+			local box_position = gui.get_position(self.prev_node)
+			local box_rotation = get_angle_of_two_nodes(self.curr_node, self.prev_node)
+			local box_size = vmath.vector3(get_dist_of_two_nodes(self.prev_node, self.curr_node), 20, 1)
+			local box_node = gui.new_box_node(box_position, box_size)
+			gui.set_color(box_node, PLANT_GREEN)
+			gui.set_pivot(box_node, gui.PIVOT_W)
+			gui.set_rotation(box_node, box_rotation)
+		end
+	end
+end
+
+function on_reload(self)
+	-- Add input-handling code here
+end
+
+-- Helper functions
+function create_new_node(self, position, size, node_function)
+	self.prev_node = self.curr_node
+	self.curr_node = node_function(position, size)
+	gui.set_color(self.curr_node, PLANT_GREEN)
+end
+
+function create_new_box_node(self, position, size)
+	create_new_node(self, position, size, gui.new_box_node)
+end
+
+function create_new_pie_node(self, position, size)
+	create_new_node(self, position, size, gui.new_pie_node)
+end
+
+function get_angle_of_two_nodes(n1, n2)
+	local v1 = gui.get_position(n1)
+	local v2 = gui.get_position(n2)
+	local angle = math.deg(math.atan2(v1.y - v2.y, v1.x - v2.x))
+	return vmath.vector3(0, 0, angle)
+end
+
+function get_dist_of_two_nodes(n1, n2)
+	local v1 = gui.get_position(n1)
+	local v2 = gui.get_position(n2)
+
+	return math.sqrt(math.pow((v2.x - v1.x), 2) + math.pow((v2.y - v1.y), 2))
+end
