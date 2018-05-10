@@ -15,6 +15,7 @@ class ParticleEmitter {
     draw() {
         for (let particle of this.particles) {
             particle.draw();
+            particle.update();
         }
     }
 }

@@ -11,6 +11,9 @@ class Particle {
         fill(0, this.alpha);
         ellipse(this.pos.x, this.pos.y, 10);
         pop();
+    }
+
+    update() {
         this.pos.x = random(this.originalPos.x - 10, this.originalPos.x + 10);
         this.pos.y = random(this.originalPos.y - 10, this.originalPos.y + 10)
         this.alpha -= 5;
