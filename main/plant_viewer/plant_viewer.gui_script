@@ -1,9 +1,13 @@
 require('main.constants.colors')
+require('main.constants.plant_characteristics')
+require('main.constants.routes')
 
 function init(self)
 	-- Add initialization code here
 	self.curr_node = nil
 	self.prev_node = nil
+
+	self.particles = {}
 
 	msg.post('.', 'acquire_input_focus')
 end
@@ -29,17 +33,13 @@ function on_input(self, action_id, action)
 		end
 	end
 	self.action_time = os.time()
-	if action_id == hash('click') or action_id == hash('touch') then
-		create_new_pie_node(self, vmath.vector3(action.x, action.y, 1), vmath.vector3(20, 20, 1))
+	if action_id == hash('left_click') or action_id == hash('touch') then
+		create_new_pie_node(self, vmath.vector3(action.x, action.y, 1), vmath.vector3(STEM_THICKNESS, STEM_THICKNESS, 1))
 		if self.prev_node ~= nil then
-			local box_position = gui.get_position(self.prev_node)
-			local box_rotation = get_angle_of_two_nodes(self.curr_node, self.prev_node)
-			local box_size = vmath.vector3(get_dist_of_two_nodes(self.prev_node, self.curr_node), 20, 1)
-			local box_node = gui.new_box_node(box_position, box_size)
-			gui.set_color(box_node, PLANT_GREEN)
-			gui.set_pivot(box_node, gui.PIVOT_W)
-			gui.set_rotation(box_node, box_rotation)
+			draw_stem(self, STEM_THICKNESS)
 		end
+	elseif action_id == hash('right_click') then
+		create_new_leaf_particle(self, vmath.vector3(action.x, action.y, 1))
 	end
 end
 
@@ -47,7 +47,29 @@ function on_reload(self)
 	-- Add input-handling code here
 end
 
--- Helper functions
+-- Helper functionsu
+function draw_stem(self, thickness)
+	local box_position = gui.get_position(self.prev_node)
+	local box_rotation = get_angle_of_two_nodes(self.curr_node, self.prev_node)
+	local box_size = vmath.vector3(get_dist_of_two_nodes(self.prev_node, self.curr_node), thickness, 1)
+
+	local box_node = gui.new_box_node(box_position, box_size)
+	
+	gui.set_color(box_node, PLANT_GREEN)
+	gui.set_pivot(box_node, gui.PIVOT_W)
+	gui.set_rotation(box_node, box_rotation)
+end
+
+function create_new_leaf_particle(self, position)
+	local rotation = nil
+	local properties = {}
+	local scale = 1.0
+
+	local particle = factory.create(LEAF_PARTICLE_FACTORY, position, rotation, properties, scale)
+	particlefx.play(particle)
+	table.insert(self.particles, particles)
+end
+
 function create_new_node(self, position, size, node_function)
 	self.prev_node = self.curr_node
 	self.curr_node = node_function(position, size)

@@ -7,7 +7,6 @@ end
 
 function final(self)
 	-- Add finalization code here
-	print('release menu')
 	msg.post('.', 'release_input_focus')
 end
 
@@ -21,7 +20,7 @@ end
 
 function on_input(self, action_id, action)
 	-- Add input-handling code here
-	if action_id == hash('click') or action_id == hash('touch') then
+	if action_id == hash('left_click') or action_id == hash('touch') then
 		if gui.pick_node(gui.get_node('start_button'), action.x, action.y) then
 			msg.post(COLLECTION_PROXY_SWITCHER, 'start')
 		elseif gui.pick_node(gui.get_node('quit_button'), action.x, action.y) then

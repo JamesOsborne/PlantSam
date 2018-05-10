@@ -4,3 +4,4 @@ MAIN_MENU = {
 	GAME_OBJECT = 'main_menu',
 	GUI = 'main_menu#gui'
 }
+LEAF_PARTICLE_FACTORY = 'plant_viewer#leaf_particle_factory'
