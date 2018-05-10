@@ -1,9 +1,0 @@
-images {
-  image: "/main/images/quit.png"
-}
-images {
-  image: "/main/images/start.png"
-}
-margin: 0
-extrude_borders: 0
-inner_padding: 0

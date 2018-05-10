@@ -1,1 +1,0 @@
-STEM_THICKNESS = 4
