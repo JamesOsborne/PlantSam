@@ -3,8 +3,4 @@ class Branch {
         this.begin = begin;
         this.end = end;
     }
-
-    draw() {
-        line(this.begin.x, this.begin.y, this.end.x, this.end.y);
-    }
 }

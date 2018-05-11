@@ -11,6 +11,7 @@ function setup() {
     begin = plant.pos;
 
     particleEmitters = [];
+    frameRate(15);
 }
 
 function draw() {
