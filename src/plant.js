@@ -5,23 +5,29 @@ class Plant {
     }
 
     draw() {
+        push();
         strokeWeight(20);
         noFill();
         stroke(100, 180, 0);
         beginShape();
-        // start ancor and start point
+
+        // start anchor and start point
         curveVertex(this.pos.x, this.pos.y);
         curveVertex(this.pos.x, this.pos.y);
-        this.branches.forEach((branch, i) => {
+
+        for (let branch of this.branches) {
             curveVertex(branch.begin.x, branch.begin.y);
-        });
-        // end ancor
-        if (this.branches.length) {
-            var begin = this.branches[this.branches.length - 1].begin;
+        }
+
+        // end anchor
+        if (this.branches.length > 0) {
+            let begin = this.branches[this.branches.length - 1].begin;
             curveVertex(
                 begin.x, begin.y
             );
         }
+
         endShape();
+        pop();
     }
 }
