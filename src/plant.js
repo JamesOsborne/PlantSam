@@ -22,9 +22,7 @@ class Plant {
         // end anchor
         if (this.branches.length > 0) {
             let begin = this.branches[this.branches.length - 1].begin;
-            curveVertex(
-                begin.x, begin.y
-            );
+            curveVertex(begin.x, begin.y);
         }
 
         endShape();
