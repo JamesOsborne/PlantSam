@@ -6,10 +6,12 @@ class Plant {
 
     draw() {
         push();
+
         strokeWeight(20);
         noFill();
         stroke(100, 180, 0);
-        path([this.pos].concat(this.branches.map((x) => x.begin)));
+        path(_.concat([this.pos], _.map(this.branches, branch => branch.begin)));
+
         pop();
     }
 }
