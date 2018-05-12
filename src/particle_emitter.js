@@ -6,7 +6,7 @@ class ParticleEmitter {
 
     emit() {
         if (this.particles.length >= 3) {
-            this.particles.splice(0, 1);    
+            this.particles.splice(0, 1);
         }
         let particle = new Particle(createVector(
             this.pos.x + random(-10, 10),
@@ -16,9 +16,9 @@ class ParticleEmitter {
     }
 
     draw() {
-        for (let particle of this.particles) {
+        _.each(this.particles, particle => {
             particle.draw();
             particle.update();
-        }
+        });
     }
 }
