@@ -3,6 +3,21 @@ let end;
 let plant;
 let particleEmitters;
 
+function path(verticies, closed = false) {
+    if (verticies.length == 0) { return; }
+    beginShape();
+    var first = verticies[0];
+    var last = verticies[verticies.length - 1];
+    if (closed) { curveVertex(last.x, last.y); }
+    else { curveVertex(first.x, first.y); }
+    for (let v of verticies) {
+        curveVertex(v.x, v.y);
+    }
+    if (closed) { curveVertex(first.x, first.y); }
+    else { curveVertex(last.x, last.y); }
+    endShape();
+}
+
 function setup() {
     createCanvas(displayWidth, displayHeight);
     background(255);
