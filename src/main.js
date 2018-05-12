@@ -18,10 +18,10 @@ function draw() {
     background(255);
     plant.draw();
 
-    for (let particleEmitter of particleEmitters) {
+    _.each(particleEmitters, particleEmitter => {
         particleEmitter.emit();
         particleEmitter.draw();
-    }
+    });
 }
 
 function mouseClicked() {
@@ -31,7 +31,9 @@ function mouseClicked() {
         begin = pos;
 
         if (end) {
-            plant.branches.push(new Branch(begin, end));
+            let length = distance(begin, end);
+            let angle = determineAngleInRadians(end, begin);
+            plant.branches.push(new Branch(begin, length, angle));
         }
     }
     particleEmitters.push(new ParticleEmitter(pos));
