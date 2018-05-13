@@ -39,7 +39,7 @@ class Plant {
                 Math.sin(averageAngles[i]) * -widths[i] + b.y
             )
         );
-        path([this.pos].concat(pointsLeft).concat(pointsRight.reverse()).concat([this.pos]), true);
+        path([this.pos].concat(pointsLeft).concat(pointsRight.reverse()).concat([this.pos]));
         pop();
     }
 }
