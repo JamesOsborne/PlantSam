@@ -1,5 +1,3 @@
-let begin;
-let end;
 let plant;
 let particleEmitters;
 
@@ -11,7 +9,7 @@ function setup() {
     begin = plant.pos;
 
     particleEmitters = [];
-    frameRate(15);
+    frameRate(2);
 }
 
 function draw() {
@@ -27,14 +25,21 @@ function draw() {
 function mouseClicked() {
     let pos = createVector(mouseX, mouseY);
     if (mouseButton === LEFT) {
-        end = begin;
-        begin = pos;
+        var points = plant.branches.reduce(
+            (r, x) => r.concat(V.add(
+                (r[r.length - 1] || plant.pos),
+                V.mult(new V(Math.cos(x.angle), Math.sin(x.angle)), x.length)
+            )),
+            []
+        );
 
-        if (end) {
-            let length = distance(begin, end);
-            let angle = determineAngleInRadians(end, begin);
-            plant.branches.push(new Branch(begin, length, angle));
-        }
+        var last = (points[points.length - 1] || plant.pos);
+        relative = V.sub(pos, last);
+
+        plant.branches.push(new Branch(
+            Math.atan2(relative.y, relative.x),
+            Math.sqrt(Math.pow(relative.x, 2) + Math.pow(relative.y, 2))
+        ));
     }
-    particleEmitters.push(new ParticleEmitter(pos));
+    //particleEmitters.push(new ParticleEmitter(pos));
 }
