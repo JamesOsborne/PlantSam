@@ -19,10 +19,6 @@ function mod(n, m) {
   return ((n % m) + m) % m;
 }
 
-function flatten(l) {
-	return [].concat.apply([], l)
-}
-
 function averageAngles(angle1, angle2) {
 	let y = Math.sin(angle1) + Math.sin(angle2);
     let x = Math.cos(angle1) + Math.cos(angle2);
