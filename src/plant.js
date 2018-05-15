@@ -1,5 +1,3 @@
-var V = p5.Vector;
-
 class Plant {
     constructor(pos = createVector(500, 800), branches = []) {
         this.pos = pos;
@@ -8,21 +6,30 @@ class Plant {
 
     draw() {
         push();
+
         noStroke();
         fill(100, 180, 0);
         stroke(100, 180, 0);
-        var points = flatten(flatten(plant.branches.map(b =>
-            [plant.pos, getPathStructure(plant.pos, 0, b)]
-        )));
-        var finalPath = points.concat(plant.pos);
-        path(finalPath);
-        
+
+        let points = _.flatten(
+            _.flatten(
+                _.map(
+                    plant.branches,
+                    branch => [plant.pos, getPathStructure(plant.pos, 0, branch)]
+                )
+            )
+        );
+        let finalPath = _.concat(points, plant.pos);
+
+        pathFromVertices(finalPath);
+
         // little red balls on the points for debugging
-        for (let p of finalPath) {
+        _.each(finalPath, point => {
             fill(255, 0, 0);
             noStroke();
-            //ellipse(p.x, p.y, 4)
-        }
+            //ellipse(point.x, point.y, 4);
+        });
+
         pop();
     }
 }
