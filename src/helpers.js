@@ -1,4 +1,4 @@
-function path(vertices, vertexFunc = curveVertex) {
+function pathFromVertices(vertices, vertexFunc = curveVertex) {
     if (vertices.length > 0) {
         beginShape();
 
@@ -7,9 +7,7 @@ function path(vertices, vertexFunc = curveVertex) {
 
         vertexFunc(first.x, first.y);
 
-        for (let vertex of vertices) {
-            vertexFunc(vertex.x, vertex.y);
-        }
+        _.each(vertices, vertex => vertexFunc(vertex.x, vertex.y));
 
         vertexFunc(last.x, last.y);
 
@@ -26,8 +24,9 @@ function flatten(l) {
 }
 
 function averageAngles(angle1, angle2) {
-	var y = Math.sin(angle1) + Math.sin(angle2);
-	var x = Math.cos(angle1) + Math.cos(angle2);
+	let y = Math.sin(angle1) + Math.sin(angle2);
+    let x = Math.cos(angle1) + Math.cos(angle2);
+
 	return atan2(y, x);
 }
 
@@ -36,11 +35,11 @@ function distance(v1, v2) {
 }
 
 function toRadians(degrees) {
-    return degrees * Math.PI / 180;
+    return degrees * PI / 180;
 }
 
 function toDegrees(radians) {
-    return radians * 180 / Math.PI;
+    return radians * 180 / PI;
 }
 
 function determineAngleInDegrees(v1, v2) {
