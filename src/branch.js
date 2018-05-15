@@ -62,6 +62,6 @@ class Branch {
         this.angle = angle;
         this.length = length;
         this.width = width;
-        this.branches = branches;
+        this.branches = branches.sort((a, b) => a.angle - b.angle);
     }
 }

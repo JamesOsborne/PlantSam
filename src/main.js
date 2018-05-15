@@ -43,14 +43,14 @@ function mouseClicked() {
         mybranch.branches = [new Branch(
             Math.atan2(relative.y, relative.x) - mybranchStructure.angle,
             Math.sqrt(Math.pow(relative.x, 2) + Math.pow(relative.y, 2)),
-            10,
+            5,
             [1, 2].map(i => new Branch(
                 random(-Math.PI/2, Math.PI/2),
-                50,
+                20,
                 5,
-                [new Branch(0.01, 20, 4, [])]
+                [new Branch(0.01, 20, 2, [])]
             ))
-        )].concat(mybranch.branches);
-        mybranch = mybranch.branches[0];
+        )].concat(mybranch.branches).sort((a, b) => a.angle - b.angle);
+        mybranch = mybranch.branches.filter(b => b.branches.length > 1)[0];
     }
 }

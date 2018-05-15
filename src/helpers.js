@@ -1,17 +1,17 @@
-function path(vertices) {
+function path(vertices, vertexFunc = curveVertex) {
     if (vertices.length > 0) {
         beginShape();
 
         let first = vertices[0];
         let last = vertices[vertices.length - 1];
 
-		curveVertex(first.x, first.y);
+        vertexFunc(first.x, first.y);
 
         for (let vertex of vertices) {
-            curveVertex(vertex.x, vertex.y);
+            vertexFunc(vertex.x, vertex.y);
         }
 
-		curveVertex(last.x, last.y);
+        vertexFunc(last.x, last.y);
 
         endShape();
     }
