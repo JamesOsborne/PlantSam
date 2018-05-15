@@ -1,4 +1,5 @@
 let plant;
+let mybranch;
 let particleEmitters;
 
 function setup() {
@@ -7,6 +8,7 @@ function setup() {
 
     plant = new Plant();
     begin = plant.pos;
+    mybranch = plant;
 
     particleEmitters = [];
     frameRate(2);
@@ -34,12 +36,21 @@ function mouseClicked() {
         );
 
         var last = (points[points.length - 1] || plant.pos);
-        relative = V.sub(pos, last);
+        var structure = getStructure(plant.pos, 0, plant);
+        var mybranchStructure = getBranchStructure(structure, mybranch);
+        relative = V.sub(pos, mybranchStructure.pos);
 
-        plant.branches.push(new Branch(
-            Math.atan2(relative.y, relative.x),
-            Math.sqrt(Math.pow(relative.x, 2) + Math.pow(relative.y, 2))
-        ));
+        mybranch.branches = [new Branch(
+            Math.atan2(relative.y, relative.x) - mybranchStructure.angle,
+            Math.sqrt(Math.pow(relative.x, 2) + Math.pow(relative.y, 2)),
+            10,
+            [1, 2].map(i => new Branch(
+                random(-Math.PI/2, Math.PI/2),
+                50,
+                5,
+                [new Branch(0.01, 20, 4, [])]
+            ))
+        )].concat(mybranch.branches);
+        mybranch = mybranch.branches[0];
     }
-    //particleEmitters.push(new ParticleEmitter(pos));
 }
