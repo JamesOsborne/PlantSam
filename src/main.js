@@ -1,6 +1,6 @@
 let plant;
-let mybranch;
 let particleEmitters;
+let PI = Math.PI;
 
 function setup() {
     createCanvas(displayWidth, displayHeight);
@@ -8,10 +8,10 @@ function setup() {
 
     plant = new Plant();
     begin = plant.pos;
-    mybranch = plant;
 
     particleEmitters = [];
-    frameRate(2);
+    frameRate(5);
+    setInterval(update, 300);
 }
 
 function draw() {
@@ -27,7 +27,7 @@ function draw() {
 function mouseClicked() {
     let pos = createVector(mouseX, mouseY);
     if (mouseButton === LEFT) {
-        var points = plant.branches.reduce(
+        /*var points = plant.branches.reduce(
             (r, x) => r.concat(V.add(
                 (r[r.length - 1] || plant.pos),
                 V.mult(new V(Math.cos(x.angle), Math.sin(x.angle)), x.length)
@@ -51,6 +51,29 @@ function mouseClicked() {
                 [new Branch(0.01, 20, 2, [])]
             ))
         )].concat(mybranch.branches).sort((a, b) => a.angle - b.angle);
-        mybranch = mybranch.branches.filter(b => b.branches.length > 1)[0];
+        mybranch = mybranch.branches.filter(b => b.branches.length > 1)[0];*/
     }
+}
+
+function updateBranch(branch, level=0) {
+    var newBranch = (branch.branches.length * 19 < branch.length) && (level % 4 == 0 || branch.branches.length == 0) ? [new Branch(
+        random(-PI / 10, PI / 10), 5, 1, []
+    )] : [];
+    return new Branch(
+        branch.angle,
+        branch.length + (20 - branch.length) / 20,
+        branch.width + 0.1,
+        branch.branches.map(b => updateBranch(b, level + 1)).concat(newBranch)
+    );
+}
+
+let i = 0;
+function update() {
+    i += 1;
+    var newBranches = plant.branches.concat(
+        Math.pow(plant.branches.length, 4) < i ? [new Branch(
+            -PI / 2 + random(-PI / 4, PI / 4), 5, 1, []
+        )] : []
+    );
+    plant = new Plant(plant.pos, newBranches.map(updateBranch));
 }
