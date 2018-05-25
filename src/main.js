@@ -56,7 +56,7 @@ function mouseClicked() {
 }
 
 function updateBranch(branch, level=0) {
-    var newBranch = (branch.branches.length * 19 < branch.length) && (level % 4 == 0 || branch.branches.length == 0) ? [new Branch(
+    var newBranch = (branch.branches.length * 19 < branch.length + 10) && (level % 4 == 0 || branch.branches.length == 0) ? [new Branch(
         random(-PI / 10, PI / 10), 5, 1, []
     )] : [];
     return new Branch(
