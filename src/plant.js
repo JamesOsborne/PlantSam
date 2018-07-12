@@ -11,9 +11,8 @@ class Plant {
         noStroke();
         fill(100, 180, 0);
         stroke(100, 180, 0);
-        var points = flatten(flatten(plant.branches.map(b =>
-            [plant.pos, getPathStructure(plant.pos, 0, b)]
-        )));
+        var structure = getStructure(plant.pos, 0, this);
+        var points = getPath(structure);
         var finalPath = points.concat(plant.pos);
         path(finalPath);
         

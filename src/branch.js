@@ -10,7 +10,7 @@ function getBranchStructure(structure, branch) {
 }
 
 function getStructure(root, rootAngle, branch) {
-    var angle = (branch.angle || 0) + rootAngle
+    var angle = (branch.angle || 0) + rootAngle;
     var pos = (
         branch.length
         ? new V(root.x + cos(angle) * branch.length, root.y + sin(angle) * branch.length)
@@ -24,11 +24,11 @@ function getStructure(root, rootAngle, branch) {
     );
 }
 
-function getPathStructure(root, rootAngle, branch) {
-    var angle = branch.angle + rootAngle;
-    var branchRoot = V.add(root, V.mult(new V(Math.cos(angle), Math.sin(angle)), branch.length));
-    var branchAngle = averageAngles(angle, rootAngle);
-    var allBranchAngles = [angle + Math.PI].concat(branch.branches.map(x => x.angle + angle));
+function getPath(structure) {
+    var branchRoot = structure.pos;
+    var allBranchAngles = [structure.angle + Math.PI].concat(
+        structure.branchStructures ? structure.branchStructures.map(x => x.angle) : []
+    );
     var middleAngles = allBranchAngles.map((a, i) => {
         var next = allBranchAngles[i + 1];
         var nextAngle = next != undefined ? next : allBranchAngles[0];
@@ -39,11 +39,12 @@ function getPathStructure(root, rootAngle, branch) {
             + (mod((nextAngle - a), (Math.PI * 2)) > Math.PI ? Math.PI : 0)
         );
     });
-    var width = branch.width;
-    var middlePoints = middleAngles.map(a => new V(branchRoot.x + cos(a) * width, branchRoot.y + sin(a) * width))
+    console.log('hey');
+    var width = structure.branch.width || 0;
+    var middlePoints = middleAngles.map(a => new V(branchRoot.x + cos(a) * width, branchRoot.y + sin(a) * width));
 
-    var points = flatten(flatten(branch.branches.map((b, i) =>
-        [[middlePoints[i]], getPathStructure(branchRoot, angle, b)]
+    var points = flatten(flatten(structure.branchStructures.map((b, i) =>
+        [[middlePoints[i]], getPath(b)]
     ))).concat([middlePoints[middlePoints.length - 1]]);
     return points;
 }

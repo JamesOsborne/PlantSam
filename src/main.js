@@ -11,7 +11,6 @@ function setup() {
     mybranch = plant;
 
     particleEmitters = [];
-    frameRate(2);
 }
 
 function draw() {
