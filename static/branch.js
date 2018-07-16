@@ -16,12 +16,12 @@ function getStructure(root, rootAngle, branch) {
         ? new V(root.x + cos(angle) * branch.length, root.y + sin(angle) * branch.length)
         : root
     );
-    return new BranchStructure(
-        pos,
-        angle,
-        branch.branches.map(b => getStructure(pos, angle, b)),
-        branch
-    );
+    return {
+        pos: pos,
+        angle: angle,
+        branchStructures: branch.branches.map(b => getStructure(pos, angle, b)),
+        branch: branch
+    };
 }
 
 function getPath(structure) {
@@ -39,7 +39,6 @@ function getPath(structure) {
             + (mod((nextAngle - a), (Math.PI * 2)) > Math.PI ? Math.PI : 0)
         );
     });
-    console.log('hey');
     var width = structure.branch.width || 0;
     var middlePoints = middleAngles.map(a => new V(branchRoot.x + cos(a) * width, branchRoot.y + sin(a) * width));
 
@@ -47,22 +46,4 @@ function getPath(structure) {
         [[middlePoints[i]], getPath(b)]
     ))).concat([middlePoints[middlePoints.length - 1]]);
     return points;
-}
-
-class BranchStructure {
-    constructor(pos, angle, branchStructures, branch = null) {
-        this.pos = pos;
-        this.angle = angle;
-        this.branchStructures = branchStructures;
-        this.branch = branch;
-    }
-}
-
-class Branch {
-    constructor(angle, length, width, branches) {
-        this.angle = angle;
-        this.length = length;
-        this.width = width;
-        this.branches = branches.sort((a, b) => a.angle - b.angle);
-    }
 }
