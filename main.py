@@ -4,6 +4,7 @@ from random import random
 from datetime import datetime
 
 app = Flask(__name__)
+app.debug = True
 app.secret_key = '29f8qw98asdf98qu39rv8uwnsod8f9238ruqmoef8hmor8yn09qg8pas0f98m1yho'
 
 def iterate(plant, times=1):
@@ -18,40 +19,38 @@ def iterate(plant, times=1):
                     'branches': [
                         {
                             'width': 1,
-                            'branches': [
-                                {
-                                    'width': 1,
-                                    'branches': [
-                                        {
-                                            'width': 1,
-                                            'branches': [],
-                                            'angle': -.5,
-                                            'length': 1
-                                        },
-                                    ],
-                                    'angle': -.5,
-                                    'length': 1
-                                },
-                                {
-                                    'width': 1,
-                                    'branches': [
-                                        {
-                                            'width': 1,
-                                            'branches': [],
-                                            'angle': .5,
-                                            'length': 1
-                                        },
-                                    ],
-                                    'angle': .5,
-                                    'length': 1
-                                },
-                            ],
-                            'angle': (random() - 0.5) / 10,
-                            'length': 5
+                            'branches': [],
+                            'angle': -.5,
+                            'length': 1
+                        },
+                        {
+                            'width': 1,
+                            'branches': [],
+                            'angle': .5,
+                            'length': 1
                         },
                     ],
-                    'angle': (random() - 0.5) / 10,
-                    'length': 5
+                    'angle': -.5,
+                    'length': 1
+                },
+                {
+                    'width': 1,
+                    'branches': [
+                        {
+                            'width': 1,
+                            'branches': [],
+                            'angle': .5,
+                            'length': 1
+                        },
+                        {
+                            'width': 1,
+                            'branches': [],
+                            'angle': -.5,
+                            'length': 1
+                        }
+                    ],
+                    'angle': .5,
+                    'length': 1
                 },
             ],
             'angle': (random() - 0.5) / 10,
@@ -116,7 +115,7 @@ def structure():
     now = datetime.today()
     last_accessed = datetime.fromtimestamp(session.get('last_accessed', now.timestamp()))
     seconds_diff = (now - (last_accessed or now)).total_seconds()
-    time_chunks = seconds_diff
+    time_chunks = seconds_diffs // 10
     last_structure = session.get('structure', None)
     structure = doiterate(last_structure, time_chunks) if last_structure else get_structure()
     session['structure'] = structure
@@ -125,5 +124,4 @@ def structure():
     return response
 
 if __name__ == '__main__':
-    #app.debug = True
     app.run()
