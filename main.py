@@ -8,7 +8,7 @@ app.secret_key = '29f8qw98asdf98qu39rv8uwnsod8f9238ruqmoef8hmor8yn09qg8pas0f98m1
 
 def iterate(plant, times=1):
     if times <= 0: return plant
-    new_branches = [iterate(b) for b in plant['branches']]
+    new_branches = [doiterate(b, 1) for b in plant['branches']]
     other_branches = ([
         {
             'width': 1,
@@ -64,7 +64,13 @@ def iterate(plant, times=1):
         'angle': plant['angle'],
         'length': plant['length'] + (0.5 / (plant['length'] + 10))
     }
-    return iterate(new_plant, times - 1)
+    return lambda: iterate(new_plant, times - 1)
+
+def doiterate(plant, times):
+    f = iterate(plant, times)
+    while callable(f):
+        f = f()
+    return f
 
 def get_structure():
     return {
@@ -112,7 +118,7 @@ def structure():
     seconds_diff = (now - (last_accessed or now)).total_seconds()
     time_chunks = seconds_diff
     last_structure = session.get('structure', None)
-    structure = iterate(last_structure, time_chunks) if last_structure else get_structure()
+    structure = doiterate(last_structure, time_chunks) if last_structure else get_structure()
     session['structure'] = structure
     session['last_accessed'] = now.timestamp()
     response = jsonify(structure)
