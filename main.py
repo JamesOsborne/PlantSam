@@ -115,7 +115,7 @@ def structure():
     now = datetime.today()
     last_accessed = datetime.fromtimestamp(session.get('last_accessed', now.timestamp()))
     seconds_diff = (now - (last_accessed or now)).total_seconds()
-    time_chunks = seconds_diffs // 10
+    time_chunks = seconds_diff // 10
     last_structure = session.get('structure', None)
     structure = doiterate(last_structure, time_chunks) if last_structure else get_structure()
     session['structure'] = structure
