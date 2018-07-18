@@ -4,7 +4,6 @@ from random import random
 from datetime import datetime
 
 app = Flask(__name__)
-app.debug = True
 app.secret_key = '29f8qw98asdf98qu39rv8uwnsod8f9238ruqmoef8hmor8yn09qg8pas0f98m1yho'
 
 def iterate(plant, times=1):
@@ -124,4 +123,5 @@ def structure():
     return response
 
 if __name__ == '__main__':
+    app.debug = True
     app.run()
