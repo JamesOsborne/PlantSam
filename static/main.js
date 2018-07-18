@@ -20,5 +20,5 @@ function fetchStructure() {
 
 function draw() {
     background(255);
-    if (plant) draw_plant(plant, new V(400, 700));
+    if (plant) draw_plant(plant, new V(windowWidth / 2, windowHeight));
 }

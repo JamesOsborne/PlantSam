@@ -26,8 +26,9 @@ function getStructure(root, rootAngle, branch) {
 
 function getPath(structure) {
     var branchRoot = structure.pos;
+    var branches = _.sortBy(structure.branchStructures, b => b.angle);
     var allBranchAngles = [structure.angle + Math.PI].concat(
-        structure.branchStructures ? structure.branchStructures.map(x => x.angle) : []
+        branches ? branches.map(x => x.angle) : []
     );
     var middleAngles = allBranchAngles.map((a, i) => {
         var next = allBranchAngles[i + 1];
@@ -42,7 +43,7 @@ function getPath(structure) {
     var width = structure.branch.width || 0;
     var middlePoints = middleAngles.map(a => new V(branchRoot.x + cos(a) * width, branchRoot.y + sin(a) * width));
 
-    var points = flatten(flatten(structure.branchStructures.map((b, i) =>
+    var points = flatten(flatten(branches.map((b, i) =>
         [[middlePoints[i]], getPath(b)]
     ))).concat([middlePoints[middlePoints.length - 1]]);
     return points;
