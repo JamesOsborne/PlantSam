@@ -9,7 +9,7 @@ function setup() {
 
     setPlant = () => fetchStructure().then(r => plant = r);
 
-    setInterval(setPlant, 1 * 10000);
+    setInterval(setPlant, 1 * 1000000);
     setPlant();
 }
 

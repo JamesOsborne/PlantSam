@@ -114,7 +114,7 @@ def structure():
     now = datetime.today()
     last_accessed = datetime.fromtimestamp(session.get('last_accessed', now.timestamp()))
     seconds_diff = (now - (last_accessed or now)).total_seconds()
-    time_chunks = seconds_diff // 10
+    time_chunks = seconds_diff // 1000
     last_structure = session.get('structure', None)
     structure = doiterate(last_structure, time_chunks) if last_structure else get_structure()
     session['structure'] = structure
@@ -124,4 +124,4 @@ def structure():
 
 if __name__ == '__main__':
     app.debug = True
-    app.run()
+    app.run(port=7030)
