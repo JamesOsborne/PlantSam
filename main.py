@@ -11,44 +11,44 @@ def iterate(plant, times=1):
     new_branches = [doiterate(b, 1) for b in plant['branches']]
     other_branches = ([
         {
-            'width': 1,
+            'width': 5,
             'branches': [
                 {
-                    'width': 1,
+                    'width': 3,
                     'branches': [
                         {
                             'width': 1,
                             'branches': [],
-                            'angle': -.5,
+                            'angle': -.7,
                             'length': 1
                         },
                         {
                             'width': 1,
                             'branches': [],
-                            'angle': .5,
+                            'angle': .7,
                             'length': 1
                         },
                     ],
-                    'angle': -.5,
+                    'angle': -.7,
                     'length': 1
                 },
                 {
-                    'width': 1,
+                    'width': 3,
                     'branches': [
                         {
                             'width': 1,
                             'branches': [],
-                            'angle': .5,
+                            'angle': .7,
                             'length': 1
                         },
                         {
                             'width': 1,
                             'branches': [],
-                            'angle': -.5,
+                            'angle': -.7,
                             'length': 1
                         }
                     ],
-                    'angle': .5,
+                    'angle': .7,
                     'length': 1
                 },
             ],
@@ -60,7 +60,7 @@ def iterate(plant, times=1):
         'width': plant['width'] + (0.01 / (plant['width'] + 5)),
         'branches': new_branches + other_branches,
         'angle': plant['angle'],
-        'length': plant['length'] + (0.5 / (plant['length'] + 10))
+        'length': plant['length'] + (0.2 / (plant['length'] + 10))
     }
     return lambda: iterate(new_plant, times - 1)
 
@@ -78,26 +78,26 @@ def get_structure():
                 'width': 3,
                 'branches': [
                     {
-                        'width': 3,
+                        'width': 1,
                         'branches': [],
-                        'angle': -.5 + (random() - .5) / 10,
+                        'angle': -.3 + (random() - .5) / 10,
                         'length': 10,
                     },
                 ],
-                'angle': -.5 + (random() - .5) / 10,
+                'angle': -.7 + (random() - .5) / 10,
                 'length': 10,
             },
             {
                 'width': 3,
                 'branches': [
                     {
-                        'width': 3,
+                        'width': 1,
                         'branches': [],
-                        'angle': .5 + (random() - .5) / 10,
+                        'angle': .3 + (random() - .5) / 10,
                         'length': 10,
                     },
                 ],
-                'angle': .5 + (random() - .5) / 10,
+                'angle': .7 + (random() - .5) / 10,
                 'length': 10,
             }
         ],
@@ -114,7 +114,7 @@ def structure():
     now = datetime.today()
     last_accessed = datetime.fromtimestamp(session.get('last_accessed', now.timestamp()))
     seconds_diff = (now - (last_accessed or now)).total_seconds()
-    time_chunks = seconds_diff // 1000
+    time_chunks = seconds_diff // 100
     last_structure = session.get('structure', None)
     structure = doiterate(last_structure, time_chunks) if last_structure else get_structure()
     session['structure'] = structure
