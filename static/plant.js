@@ -5,7 +5,7 @@ function draw_plant(plant, pos) {
     stroke(100, 180, 0);
     var structure = getStructure(pos, 0, plant);
     var points = getPath(structure);
-    var finalPath = points.concat(pos);
+    var finalPath = [pos].concat(points.concat(pos));
     path(finalPath);
 
     // little red balls on the points for debugging
